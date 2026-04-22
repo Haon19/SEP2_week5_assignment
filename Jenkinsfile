@@ -8,10 +8,10 @@ pipeline {
     }
 
     environment {
-        Path = ""
-        JAVA_HOME = ""
-        SONARQUBE_SERVER = ""
-        SONAR_TOKEN = credentials("")
+        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
+        JAVA_HOME = "/usr/local/opt/openjdk@17/bin/java"
+        SONARQUBE_SERVER = "SonnarQubeServer"
+        SONAR_TOKEN = credentials("sonarcloud-token")
 
         DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         DOCKERHUB_REPO = 'haon19/sonarqube-pipeline'
