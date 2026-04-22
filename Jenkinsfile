@@ -31,16 +31,20 @@ pipeline {
             }
         }
 
-        stage('SonarCloud Analysis') {
+        stage('SonarQube Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONAR_TOKEN')]) {
-                    sh """
-        sonar-scanner 
-          -Dsonar.login=${SONAR_TOKEN} 
-          -Dsonar.host.url=https://sonarcloud.io 
-          -Dsonar.organization=Haon19
-          -Dsonar.projectKey=SEP2_week5_assignment
-      """
+                withSonarQubeEnv('SonarQubeServer') {
+                    withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                        sh """
+                            ${tool 'SonarScanner'}/bin/sonar-scanner \
+                            -Dsonar.projectKey=SEP2_week5_assignment \
+                            -Dsonar.sources=src \
+                            -Dsonar.projectName=SEP2_week5_assignment \
+                            -Dsonar.host.url=https://sonarcloud.io/ \
+                            -Dsonar.login=${SONAR_TOKEN} \
+                            -Dsonar.java.binaries=${WORKSPACE}/target/classes
+                        """
+                    }
                 }
             }
         }
