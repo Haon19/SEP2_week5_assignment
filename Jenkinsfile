@@ -11,7 +11,7 @@ pipeline {
         SONARQUBE_SERVER = "SonarQubeServer"
         SONAR_TOKEN = credentials("sonarcloud-token")
 
-        DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
+        DOCKERHUB_CREDENTIALS_ID = 'dockerhub-creds'
         DOCKERHUB_REPO = 'haon19/sonarqube-pipeline'
         DOCKER_IMAGE_TAG = 'latest'
     }
