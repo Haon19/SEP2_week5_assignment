@@ -36,7 +36,7 @@ pipeline {
                 withSonarQubeEnv('SonarCloud') {
                     withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONAR_TOKEN')]) {
                         sh """
-                            ${tool 'SonarScanner'}/bin/sonar-scanner \
+                           
                             -Dsonar.projectKey=SEP2_week5_assignment \
                             -Dsonar.sources=src \
                             -Dsonar.projectName=SEP2_week5_assignment \
