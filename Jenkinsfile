@@ -5,7 +5,6 @@ pipeline {
 
     tools {
         maven 'Maven3'
-        sonarScanner 'SonarScanner'
     }
 
     environment {
@@ -37,7 +36,10 @@ pipeline {
         stage('SonarCloud Analysis') {
             steps {
                 withSonarQubeEnv('SonarCloud') {
-                    sh "sonar-scanner"//diff maybe
+                    script {
+                        def scannerHome = tool 'SonarScanner'
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
                 }
             }
         }
