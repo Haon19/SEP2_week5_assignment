@@ -33,7 +33,7 @@ pipeline {
 
         stage('SonarCloud Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'SONAR_TOKEN_ID', variable: 'SONAR_TOKEN')]) {
+                withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONAR_TOKEN')]) {
                     sh """
         sonar-scanner 
           -Dsonar.login=${SONAR_TOKEN} 
