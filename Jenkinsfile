@@ -1,12 +1,18 @@
+import java.nio.file.Path
+
 pipeline {
     agent any
 
     tools {
         maven 'Maven3'
-        SonarScanner 'SonarScanner'
     }
 
     environment {
+        Path = ""
+        JAVA_HOME = ""
+        SONARQUBE_SERVER = ""
+        SONAR_TOKEN = credentials("")
+
         DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         DOCKERHUB_REPO = 'haon19/sonarqube-pipeline'
         DOCKER_IMAGE_TAG = 'latest'
@@ -29,8 +35,8 @@ pipeline {
 
         stage('SonarCloud Analysis') {
             steps {
-                withSonarQubeEnv('SonarCloud') {
-                    sh 'sonar-scanner'
+                withSonarQubeEnv('SonarQubeServer') {
+                    sh "${tool 'SonarScanner'}/bin/sonar-scanner"//diff maybe
                 }
             }
         }
@@ -53,13 +59,15 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                script {
-                    docker.withRegistry(
-                            'https://index.docker.io/v1/',
-                            DOCKERHUB_CREDENTIALS_ID
-                    ) {
-                        docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").push()
-                    }
+                withCredentials([usernamePassword(
+                        credentialsId: "${DOCKERHUB_CREDENTIALS_ID}",
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh '''
+                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                 docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
+             '''
                 }
             }
         }
