@@ -33,14 +33,28 @@ pipeline {
 
         stage('SonarCloud Analysis') {
             steps {
-                withSonarQubeEnv('SonarCloud') {
-                    script {
-                        def scannerHome = tool 'SonarScanner'
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
+                withCredentials([string(credentialsId: 'SONAR_TOKEN_ID', variable: 'SONAR_TOKEN')]) {
+                    sh """
+        sonar-scanner 
+          -Dsonar.login=${SONAR_TOKEN} 
+          -Dsonar.host.url=https://sonarcloud.io 
+          -Dsonar.organization=your-org 
+          -Dsonar.projectKey=your-project
+      """
                 }
             }
         }
+
+//        stage('SonarCloud Analysis') {
+//            steps {
+//                withSonarQubeEnv('SonarCloud') {
+//                    script {
+//                        def scannerHome = tool 'SonarScanner'
+//                        sh "${scannerHome}/bin/sonar-scanner"
+//                    }
+//                }
+//            }
+//        }
 
         stage('Quality Gate') {
             steps {
