@@ -38,8 +38,8 @@ pipeline {
         sonar-scanner 
           -Dsonar.login=${SONAR_TOKEN} 
           -Dsonar.host.url=https://sonarcloud.io 
-          -Dsonar.organization=your-org 
-          -Dsonar.projectKey=your-project
+          -Dsonar.organization=Haon19
+          -Dsonar.projectKey=SEP2_week5_assignment
       """
                 }
             }
