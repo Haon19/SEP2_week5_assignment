@@ -9,7 +9,7 @@ pipeline {
 
     environment {
         PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
-        JAVA_HOME = "/usr/local/opt/openjdk@17/bin/java"
+//        JAVA_HOME = "/usr/local/opt/openjdk@17/bin/java"
         SONARQUBE_SERVER = "SonnarQubeServer"
         SONAR_TOKEN = credentials("sonarcloud-token")
 
