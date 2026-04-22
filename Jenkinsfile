@@ -68,11 +68,14 @@ pipeline {
 //            }
 //        }
 
-        stage('Build Docker Image') {
+
+        stage('Build Docker image') {
             steps {
-                script {
-                    docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
-                }
+                sh '''
+             docker build \
+               -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} \
+               .
+             '''
             }
         }
 
@@ -84,9 +87,9 @@ pipeline {
                         passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh '''
-                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                 docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
-             '''
+                     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                     docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
+                 '''
                 }
             }
         }
