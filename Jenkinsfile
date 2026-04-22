@@ -36,7 +36,7 @@ pipeline {
         stage('SonarCloud Analysis') {
             steps {
                 withSonarQubeEnv('SonarCloud') {
-                    sh "${tool 'SonarScanner'}/bin/sonar-scanner"//diff maybe
+                    sh "sonar-scanner"//diff maybe
                 }
             }
         }
