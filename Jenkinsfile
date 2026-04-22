@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
-        DOCKERHUB_REPO = 'amirdirin/lectdemo3010_pod_2026'
+        DOCKERHUB_REPO = 'haon19/sonarqube-pipeline'
         DOCKER_IMAGE_TAG = 'latest'
     }
 
@@ -16,8 +16,8 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'master',
-                        url: 'https://github.com/ADirin/Lecture_demo_avg_consol.git'
+                git branch: 'main',
+                        url: 'https://github.com/Haon19/SEP2_week5_assignment.git'
             }
         }
 
